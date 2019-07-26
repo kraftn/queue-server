@@ -38,6 +38,7 @@ dependencies {
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.4.2.Final'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.6'
     compile group: 'org.json', name: 'json', version: '20180813'
+    compile group: 'javax.mail', name: 'mail', version: '1.4.7'
     testCompile("junit:junit")
 }
 

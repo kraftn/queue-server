@@ -1,5 +1,6 @@
 package ru.practice.server.models;
 
+import org.json.JSONObject;
 import org.json.JSONStringer;
 
 import javax.persistence.*;
@@ -64,10 +65,10 @@ public class Task {
     public String toJsonString(){
         return new JSONStringer().object()
                 .key("id").value(id)
-                .key("kind").value(kind)
+                .key("kind").value(kind.getKind())
                 .key("status").value(status)
-                .key("input").value(input)
-                .key("output").value(output)
+                .key("input").value(new JSONObject(input))
+                .key("output").value(new JSONObject(output))
                 .endObject().toString();
     }
 }

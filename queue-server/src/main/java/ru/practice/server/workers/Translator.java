@@ -5,6 +5,7 @@ import org.json.JSONStringer;
 import ru.practice.server.models.Task;
 import ru.practice.server.models.TaskType;
 import ru.practice.server.utils.Queue;
+import ru.practice.server.utils.YandexTranslate;
 
 import java.io.IOException;
 
@@ -33,7 +34,7 @@ public class Translator implements Runnable {
 
             String translated = null;
             try {
-                translated = "translated";
+                translated = YandexTranslate.translate(lang, text);
             } catch (IOException e) {
                 queue.beginTransaction();
                 currentTask.setStatus(Queue.NO_INTERNET);

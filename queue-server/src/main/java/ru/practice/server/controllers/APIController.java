@@ -16,9 +16,8 @@ import java.util.List;
 public class APIController {
     private List<TaskType> taskTypes = HibernateManager.getInstance().getAllTaskTypes();
 
-    @RequestMapping(value = "/saveData", headers="Content-Type=application/json", method = RequestMethod.POST)
-    @ResponseBody
-    public void saveData(@RequestBody String a){
+    @RequestMapping(value = "/transferData", headers="Content-Type=application/json", method = RequestMethod.POST)
+    public @ResponseBody void transferData(@RequestBody String a){
         Queue queuePush = new Queue(HibernateManager.getInstance().createEntityManager());
 
         JSONArray jsonArray = new JSONArray(a);

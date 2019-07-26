@@ -1,4 +1,4 @@
-package ru.practice.server.controllers;
+package ru.practice.server.configuration;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

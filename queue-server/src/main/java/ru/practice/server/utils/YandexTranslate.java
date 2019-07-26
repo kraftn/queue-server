@@ -1,4 +1,4 @@
-package utils;
+package ru.practice.server.utils;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.DataOutputStream;
 import java.io.IOException;

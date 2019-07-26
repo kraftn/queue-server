@@ -5,6 +5,7 @@ import org.json.JSONStringer;
 import ru.practice.server.models.Task;
 import ru.practice.server.models.TaskType;
 import ru.practice.server.utils.Queue;
+import ru.practice.server.utils.WebSocketSender;
 
 public class QuadraticEquationSolver implements Runnable {
     private Queue queue;

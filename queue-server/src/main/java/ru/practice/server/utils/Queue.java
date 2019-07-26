@@ -26,10 +26,6 @@ public class Queue {
         entityManager.getTransaction().commit();
     }
 
-    /*public void rollBack() {
-        entityManager.getTransaction().rollback();
-    }*/
-
     public void push(Task task) {
         entityManager.persist(task);
     }

@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ru.practice.server.models.TaskType;
 import ru.practice.server.utils.HibernateManager;
+import ru.practice.server.utils.ThreadManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,6 +19,7 @@ public class Application {
     public static void main(String[] args) {
         //initFile();
         SpringApplication.run(Application.class, args);
+        ThreadManager.getInstance().start();
     }
 
     private static void initFile() {

@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class TaskType {
     public static final String QUADRATIC_EQUATION = "Quadratic equation";
     public static final String TRANSLATION = "Translation";
+    public static final String EMAIL = "E-mail";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

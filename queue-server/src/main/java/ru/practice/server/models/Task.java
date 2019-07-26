@@ -1,5 +1,7 @@
 package ru.practice.server.models;
 
+import org.json.JSONStringer;
+
 import javax.persistence.*;
 
 @Entity
@@ -57,5 +59,15 @@ public class Task {
 
     public long getId() {
         return id;
+    }
+
+    public String toJsonString(){
+        return new JSONStringer().object()
+                .key("id").value(id)
+                .key("kind").value(kind)
+                .key("status").value(status)
+                .key("input").value(input)
+                .key("output").value(output)
+                .endObject().toString();
     }
 }

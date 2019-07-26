@@ -21,6 +21,8 @@ public class Application {
     }
 
     private static void initFile() {
+        String fromEmail = "your email";
+
         HibernateManager manager = HibernateManager.getInstance();
         List<TaskType> taskTypes = HibernateManager.getInstance().getAllTaskTypes();
 
@@ -37,26 +39,35 @@ public class Application {
         JSONWriter resultWriter = new JSONStringer().array();
 
         for (int i = 0; i < 5; i++) {
-            int type = rnd.nextInt(2);
-            if (type == 0) {
-                resultWriter.object()
-                        .key("kind").value(TaskType.QUADRATIC_EQUATION)
-                        .key("input").object()
-                                .key("a").value(100 * rnd.nextDouble())
-                                .key("b").value(100 * rnd.nextDouble())
-                                .key("c").value(100 * rnd.nextDouble())
-                                .endObject()
-                .endObject();
-            } else {
-                resultWriter.object()
-                        .key("kind").value(TaskType.TRANSLATION)
-                        .key("input").object()
-                                .key("lang").value("ru")
-                                .key("text").value(words[i % words.length])
-                                .endObject()
-                .endObject();
+            int type = rnd.nextInt(3);
+            switch (type){
+                case 0:
+                    resultWriter.object()
+                            .key("kind").value(TaskType.QUADRATIC_EQUATION)
+                            .key("input").object()
+                            .key("a").value(100 * rnd.nextDouble())
+                            .key("b").value(100 * rnd.nextDouble())
+                            .key("c").value(100 * rnd.nextDouble())
+                            .endObject()
+                            .endObject();
+                case 1:
+                    resultWriter.object()
+                            .key("kind").value(TaskType.TRANSLATION)
+                            .key("input").object()
+                            .key("lang").value("ru")
+                            .key("text").value(words[i % words.length])
+                            .endObject()
+                            .endObject();
+                case 2:
+                    resultWriter.object()
+                            .key("kind").value(TaskType.EMAIL)
+                            .key("input").object()
+                            .key("to").value(fromEmail)
+                            .key("subject").value("New testing email")
+                            .key("text").value(words[i % words.length])
+                            .endObject()
+                            .endObject();
             }
-
         }
         pw.print(resultWriter.endArray().toString());
         pw.close();

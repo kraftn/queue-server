@@ -1,26 +1,23 @@
 package ru.practice.server.workers;
 
 import org.json.JSONObject;
-import org.json.JSONStringer;
 import ru.practice.server.models.Task;
 import ru.practice.server.models.TaskType;
+import ru.practice.server.utils.GmailSender;
 import ru.practice.server.utils.Queue;
 import ru.practice.server.utils.WebSocketSender;
-import ru.practice.server.utils.YandexTranslate;
 
-import java.io.IOException;
-
-public class Translator implements Runnable {
+public class MailSender implements Runnable {
     private Queue queue;
 
-    public Translator(Queue queue){
+    public MailSender(Queue queue){
         this.queue = queue;
     }
 
     @Override
     public void run() {
         queue.beginTransaction();
-        Task currentTask = queue.top(TaskType.TRANSLATION);
+        Task currentTask = queue.top(TaskType.EMAIL);
         queue.endTransaction();
 
         while (currentTask != null) {
@@ -30,14 +27,15 @@ public class Translator implements Runnable {
 
             String inputString = currentTask.getInput();
             JSONObject inputJson = new JSONObject(inputString);
-            String lang = inputJson.getString("lang");
+            String subject = inputJson.getString("subject");
+            String toEmail = inputJson.getString("to");
             String text = inputJson.getString("text");
 
             boolean isErrorOccurred = false;
-            String translated = null;
             try {
-                translated = YandexTranslate.translate(lang, text);
-            } catch (IOException e) {
+                new GmailSender("sendermail23333@gmail.com", "qwertyuiop1!")
+                        .send(subject, text, "sendermail23333@gmail.com", toEmail);
+            } catch (RuntimeException e){
                 queue.beginTransaction();
                 currentTask.setStatus(Queue.NO_INTERNET);
                 queue.endTransaction();
@@ -48,16 +46,10 @@ public class Translator implements Runnable {
 
             queue.beginTransaction();
             if (!isErrorOccurred) {
-                String result = new JSONStringer().object()
-                        .key("translated")
-                        .value(translated)
-                        .endObject().toString();
-
-                currentTask.setOutput(result);
                 currentTask.setStatus(Queue.DONE);
             }
             WebSocketSender.send(currentTask.toJsonString());
-            currentTask = queue.top(TaskType.TRANSLATION);
+            currentTask = queue.top(TaskType.EMAIL);
             queue.endTransaction();
         }
     }

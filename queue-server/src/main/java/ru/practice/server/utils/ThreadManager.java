@@ -1,5 +1,6 @@
 package ru.practice.server.utils;
 
+import ru.practice.server.workers.MailSender;
 import ru.practice.server.workers.QuadraticEquationSolver;
 import ru.practice.server.workers.Translator;
 
@@ -21,6 +22,11 @@ public class ThreadManager {
         queue = new Queue(hibernateManager.createEntityManager());
         Translator translator = new Translator(queue);
         workers.add(translator);
+        threads.add(null);
+
+        queue = new Queue(hibernateManager.createEntityManager());
+        MailSender sender = new MailSender(queue);
+        workers.add(sender);
         threads.add(null);
     }
 

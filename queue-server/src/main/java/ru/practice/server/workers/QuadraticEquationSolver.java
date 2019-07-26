@@ -33,8 +33,7 @@ public class QuadraticEquationSolver implements Runnable {
             };
 
             Double[] x = solve(coefficients);
-            String result;
-            result = new JSONStringer().object()
+            String result = new JSONStringer().object()
                     .key("x1")
                     .value(x[0])
                     .key("x2")
@@ -44,6 +43,7 @@ public class QuadraticEquationSolver implements Runnable {
             queue.beginTransaction();
             currentTask.setOutput(result);
             currentTask.setStatus(Queue.DONE);
+            WebSocketSender.send(currentTask.toJsonString());
             currentTask = queue.top(TaskType.QUADRATIC_EQUATION);
             queue.endTransaction();
         }

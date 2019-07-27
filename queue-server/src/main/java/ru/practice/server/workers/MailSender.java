@@ -12,9 +12,11 @@ import java.net.UnknownHostException;
 
 public class MailSender implements Runnable {
     private Queue queue;
+    private GmailSender gmailSender;
 
     public MailSender(Queue queue){
         this.queue = queue;
+        this.gmailSender = new GmailSender("sendermail23333@gmail.com", "qwertyuiop1!");
     }
 
     @Override
@@ -36,14 +38,17 @@ public class MailSender implements Runnable {
 
             boolean isErrorOccurred = false;
             try {
-                new GmailSender("sendermail23333@gmail.com", "qwertyuiop1!")
-                        .send(subject, text, "sendermail23333@gmail.com", toEmail);
+                gmailSender.send(subject, text, "sendermail23333@gmail.com", toEmail);
             } catch (RuntimeException e){
                 isErrorOccurred = true;
 
                 queue.beginTransaction();
                 Throwable cause = e.getCause().getCause();
                 String status = "";
+
+
+                e.printStackTrace();
+
                 if (cause.getClass().equals(UnknownHostException.class)) {
                     status = Queue.NO_INTERNET;
                 } else if(cause.getClass().equals(SMTPAddressFailedException.class)){

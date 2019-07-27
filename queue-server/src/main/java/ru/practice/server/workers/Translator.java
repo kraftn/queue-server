@@ -38,12 +38,14 @@ public class Translator implements Runnable {
             try {
                 translated = YandexTranslate.translate(lang, text);
             } catch (IOException e) {
+                isErrorOccurred = true;
+
                 queue.beginTransaction();
                 currentTask.setStatus(Queue.NO_INTERNET);
                 queue.endTransaction();
 
-                isErrorOccurred = true;
-                e.printStackTrace();
+                System.out.println(String.format(Queue.TEMPLATE_TO_PRINT,
+                        currentTask.getId(), Queue.NO_INTERNET));
             }
 
             queue.beginTransaction();

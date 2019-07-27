@@ -34,10 +34,8 @@ public class QuadraticEquationSolver implements Runnable {
 
             Double[] x = solve(coefficients);
             String result = new JSONStringer().object()
-                    .key("x1")
-                    .value(x[0])
-                    .key("x2")
-                    .value(x[1])
+                    .key("x1").value(x[0])
+                    .key("x2").value(x[1])
                     .endObject().toString();
 
             queue.beginTransaction();

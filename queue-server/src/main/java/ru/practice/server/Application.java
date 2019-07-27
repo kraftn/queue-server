@@ -5,28 +5,23 @@ import org.json.JSONWriter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ru.practice.server.models.TaskType;
-import ru.practice.server.utils.HibernateManager;
 import ru.practice.server.utils.ThreadManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.Random;
 
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
-        //initFile();
+        //initFile(5, "your e-mail");
         SpringApplication.run(Application.class, args);
         ThreadManager.getInstance().start();
     }
 
-    private static void initFile() {
-        String fromEmail = "your email";
-
-        HibernateManager manager = HibernateManager.getInstance();
-        List<TaskType> taskTypes = HibernateManager.getInstance().getAllTaskTypes();
+    private static void initFile(int numberObjects, String fromEmail) {
+        String[] words = {"Привет", "Пока", "Автомобиль", "Апельсин", "Стол"};
 
         File file = new File(".\\src\\main\\java\\ru\\practice\\server\\input.json");
         PrintWriter pw = null;
@@ -35,12 +30,10 @@ public class Application {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-        String[] words = {"Hello", "Bye", "Cat", "Dog", "Bird", "Fish", "Car"};
         Random rnd = new Random(System.currentTimeMillis());
         JSONWriter resultWriter = new JSONStringer().array();
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < numberObjects; i++) {
             int type = rnd.nextInt(3);
             switch (type){
                 case 0:
@@ -56,7 +49,7 @@ public class Application {
                     resultWriter.object()
                             .key("kind").value(TaskType.TRANSLATION)
                             .key("input").object()
-                            .key("lang").value("ru")
+                            .key("lang").value("en")
                             .key("text").value(words[i % words.length])
                             .endObject()
                             .endObject();
@@ -65,7 +58,7 @@ public class Application {
                             .key("kind").value(TaskType.EMAIL)
                             .key("input").object()
                             .key("to").value(fromEmail)
-                            .key("subject").value("New testing email")
+                            .key("subject").value("Новое письмо")
                             .key("text").value(words[i % words.length])
                             .endObject()
                             .endObject();
@@ -73,13 +66,5 @@ public class Application {
         }
         pw.print(resultWriter.endArray().toString());
         pw.close();
-    }
-
-    private static TaskType findKind(String kind, List<TaskType> taskTypes) {
-        int i = 0;
-        while (!taskTypes.get(i).getKind().equals(kind)) {
-            i++;
-        }
-        return taskTypes.get(i);
     }
 }

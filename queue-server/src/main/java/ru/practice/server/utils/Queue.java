@@ -7,10 +7,13 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 public class Queue {
-    public static final String DONE = "Successfully done";
-    public static final String RUNNING = "Running";
-    public static final String WAITING = "In the queue";
-    public static final String NO_INTERNET = "No Internet connection";
+    public static final String TEMPLATE_TO_PRINT = "Ошибка при выполении задачи с id = %d: %s";
+
+    public static final String DONE = "Успешно выполнено";
+    public static final String RUNNING = "Выполняется";
+    public static final String WAITING = "В очереди";
+    public static final String NO_INTERNET = "Нет подключения к интернету";
+    public static final String WRONG_EMAIL_ADDRESS = "Неверный e-mail адрес";
 
     private EntityManager entityManager;
 

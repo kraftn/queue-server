@@ -2,6 +2,7 @@ package ru.practice.server.models;
 
 import org.json.JSONObject;
 import org.json.JSONStringer;
+import org.json.JSONWriter;
 
 import javax.persistence.*;
 
@@ -62,13 +63,17 @@ public class Task {
         return id;
     }
 
-    public String toJsonString(){
-        return new JSONStringer().object()
+    public String toJsonString() {
+        JSONWriter writer = new JSONStringer().object()
                 .key("id").value(id)
                 .key("kind").value(kind.getKind())
                 .key("status").value(status)
-                .key("input").value(new JSONObject(input))
-                .key("output").value(new JSONObject(output))
-                .endObject().toString();
+                .key("input").value(new JSONObject(input));
+        if (null != output) {
+            writer.key("output").value(new JSONObject(output));
+        } else {
+            writer.key("output").value(null);
+        }
+        return writer.endObject().toString();
     }
 }

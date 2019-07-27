@@ -45,10 +45,7 @@ public class MailSender implements Runnable {
                 queue.beginTransaction();
                 Throwable cause = e.getCause().getCause();
                 String status = "";
-
-
-                e.printStackTrace();
-
+                
                 if (cause.getClass().equals(UnknownHostException.class)) {
                     status = Queue.NO_INTERNET;
                 } else if(cause.getClass().equals(SMTPAddressFailedException.class)){

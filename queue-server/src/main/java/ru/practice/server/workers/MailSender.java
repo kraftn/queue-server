@@ -10,15 +10,28 @@ import ru.practice.server.utils.WebSocketSender;
 
 import java.net.UnknownHostException;
 
+/**
+ * Обработчик задач отправки электронных писем
+ */
 public class MailSender implements Runnable {
+    /** Объект для работы с очередью в базе данных */
     private Queue queue;
+    /** Объект для отправки писем */
     private GmailSender gmailSender;
 
-    public MailSender(Queue queue){
+    /**
+     * Конструктор класса
+     *
+     * @param queue объект для работы с очередью в базе данных
+     */
+    public MailSender(Queue queue) {
         this.queue = queue;
         this.gmailSender = new GmailSender("sendermail23333@gmail.com", "qwertyuiop1!");
     }
 
+    /**
+     * Выполнить задачи в отдельном потоке
+     */
     @Override
     public void run() {
         queue.beginTransaction();
@@ -39,25 +52,31 @@ public class MailSender implements Runnable {
             boolean isErrorOccurred = false;
             try {
                 gmailSender.send(subject, text, "sendermail23333@gmail.com", toEmail);
-            } catch (RuntimeException e){
+            } catch (RuntimeException e) {
                 isErrorOccurred = true;
 
-                queue.beginTransaction();
                 Throwable cause = e.getCause().getCause();
                 String status = "";
-                
+
+                // Если нет подключения к интернету
                 if (cause.getClass().equals(UnknownHostException.class)) {
                     status = Queue.NO_INTERNET;
-                } else if(cause.getClass().equals(SMTPAddressFailedException.class)){
-                    status = Queue.WRONG_EMAIL_ADDRESS;
-                }
+                } else
+                    // Если указан неверный адрес электронной почты
+                    if (cause.getClass().equals(SMTPAddressFailedException.class)) {
+                        status = Queue.WRONG_EMAIL_ADDRESS;
+                    }
+
+                queue.beginTransaction();
                 currentTask.setStatus(status);
+                queue.endTransaction();
+
                 System.out.println(String.format(Queue.TEMPLATE_TO_PRINT,
                         currentTask.getId(), status));
-                queue.endTransaction();
             }
 
             queue.beginTransaction();
+            // При отсутствии ошибок установить статус успешного выполнения
             if (!isErrorOccurred) {
                 currentTask.setStatus(Queue.DONE);
             }

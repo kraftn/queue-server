@@ -9,14 +9,29 @@ import ru.practice.server.utils.WebSocketSender;
 import ru.practice.server.utils.YandexTranslate;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
+/**
+ * Обработчик задач перевода текста
+ */
 public class Translator implements Runnable {
+    /**
+     * Объект для работы с очередью в базе данных
+     */
     private Queue queue;
 
-    public Translator(Queue queue){
+    /**
+     * Конструктор класса
+     *
+     * @param queue объект для работы с очередью в базе данных
+     */
+    public Translator(Queue queue) {
         this.queue = queue;
     }
 
+    /**
+     * Выполнить задачи в отдельном потоке
+     */
     @Override
     public void run() {
         queue.beginTransaction();
@@ -40,15 +55,29 @@ public class Translator implements Runnable {
             } catch (IOException e) {
                 isErrorOccurred = true;
 
+                String status = "";
+                // Если нет подключения к интернету
+                if (e.getClass().equals(UnknownHostException.class)) {
+                    status = Queue.NO_INTERNET;
+                } else
+                    // Если указан неверный язык
+                    if (e.getClass().equals(IOException.class)) {
+                        status = Queue.WRONG_LANGUAGE;
+                    }
+
                 queue.beginTransaction();
-                currentTask.setStatus(Queue.NO_INTERNET);
+                currentTask.setStatus(status);
                 queue.endTransaction();
 
                 System.out.println(String.format(Queue.TEMPLATE_TO_PRINT,
-                        currentTask.getId(), Queue.NO_INTERNET));
+                        currentTask.getId(), status));
             }
 
             queue.beginTransaction();
+            /*
+            При отсутствии ошибок установить статус успешного выполнения
+            и зафиксировать результат выполнения
+            */
             if (!isErrorOccurred) {
                 String result = new JSONStringer().object()
                         .key("translated")
@@ -58,6 +87,7 @@ public class Translator implements Runnable {
                 currentTask.setOutput(result);
                 currentTask.setStatus(Queue.DONE);
             }
+
             WebSocketSender.send(currentTask.toJsonString());
             currentTask = queue.top(TaskType.TRANSLATION);
             queue.endTransaction();

@@ -6,9 +6,16 @@ import org.springframework.web.socket.config.annotation.AbstractWebSocketMessage
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
+/**
+ * Класс для настройки веб-сокетов
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
+    /**
+     * Метод, настраивающий конечную точку соединения
+     * @param registry
+     */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/socket")
@@ -16,6 +23,10 @@ public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfig
                 .withSockJS();
     }
 
+    /**
+     * Метод, настраивающий подписку для предоставления результатов клиентскому приложению
+     * @param registry
+     */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app")

@@ -7,13 +7,25 @@ import ru.practice.server.models.TaskType;
 import ru.practice.server.utils.Queue;
 import ru.practice.server.utils.WebSocketSender;
 
+/**
+ * Обработчик квадратных уравнений
+ */
 public class QuadraticEquationSolver implements Runnable {
+    /** Объект для работы с очередью в базе данных */
     private Queue queue;
 
+    /**
+     * Конструктор класса
+     *
+     * @param queue объект для работы с очередью в базе данных
+     */
     public QuadraticEquationSolver(Queue queue) {
         this.queue = queue;
     }
 
+    /**
+     * Выполнить задачи в отдельном потоке
+     */
     @Override
     public void run() {
         queue.beginTransaction();
@@ -47,19 +59,28 @@ public class QuadraticEquationSolver implements Runnable {
         }
     }
 
+    /**
+     * Метод для решения квадратных уравнений
+     *
+     * @param coef массив коэффициентов квадратного уравнения
+     * @return корни квадратного уравнения
+     */
     private Double[] solve(double[] coef) {
         Double[] x = new Double[2];
         double discriminant = Math.pow(coef[1], 2) - 4 * coef[0] * coef[2];
+        // Проверка дискриминанта на равенство 0
         if (discriminant == 0.0) {
             x[0] = -coef[1] / (2 * coef[0]);
             x[1] = null;
-        } else if (discriminant < 0) {
-            x[0] = null;
-            x[1] = null;
-        } else {
-            x[0] = (-coef[1] + Math.sqrt(discriminant)) / (2 * coef[0]);
-            x[1] = (-coef[1] - Math.sqrt(discriminant)) / (2 * coef[0]);
-        }
+        } else
+            // Проверка на наличие корней
+            if (discriminant < 0) {
+                x[0] = null;
+                x[1] = null;
+            } else {
+                x[0] = (-coef[1] + Math.sqrt(discriminant)) / (2 * coef[0]);
+                x[1] = (-coef[1] - Math.sqrt(discriminant)) / (2 * coef[0]);
+            }
         return x;
     }
 }

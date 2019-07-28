@@ -12,15 +12,27 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Random;
 
+/**
+ * Класс приложения
+ */
 @SpringBootApplication
 public class Application {
+    /**
+     * Запустить приложение
+     * @param args параметры командной строки
+     */
     public static void main(String[] args) {
-        initFile(100, "email");
+        initFile(5, "kravchykn99@gmail.com");
         SpringApplication.run(Application.class, args);
         ThreadManager.getInstance().start();
     }
 
-    private static void initFile(int numberObjects, String fromEmail) {
+    /**
+     * Создать тестовый JSON файл
+     * @param numberObjects количество объектов в файле
+     * @param toEmail адрес для отправки e-mail
+     */
+    private static void initFile(int numberObjects, String toEmail) {
         String[] words = {"Привет", "Пока", "Автомобиль", "Апельсин", "Стол"};
 
         File file = new File(".\\src\\main\\java\\ru\\practice\\server\\input.json");
@@ -45,6 +57,7 @@ public class Application {
                             .key("c").value(100 * rnd.nextDouble())
                             .endObject()
                             .endObject();
+                    break;
                 case 1:
                     resultWriter.object()
                             .key("kind").value(TaskType.TRANSLATION)
@@ -53,15 +66,17 @@ public class Application {
                             .key("text").value(words[i % words.length])
                             .endObject()
                             .endObject();
+                    break;
                 case 2:
                     resultWriter.object()
                             .key("kind").value(TaskType.EMAIL)
                             .key("input").object()
-                            .key("to").value(fromEmail)
+                            .key("to").value(toEmail)
                             .key("subject").value("Новое письмо")
                             .key("text").value(words[i % words.length])
                             .endObject()
                             .endObject();
+                    break;
             }
         }
         pw.print(resultWriter.endArray().toString());

@@ -6,10 +6,26 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLEncoder;
 
+/**
+ * Класс, позволяющий переводить текст с помощью Yandex Translate API
+ */
 public class YandexTranslate {
+    /**
+     * счетчик, для хождения по строкам json-ответа
+     */
     private static int i = 0;
-    private static String APIkey = "trnsl.1.1.20190724T111021Z.022523749cea0e17.47536e5b755e722e5a41aa56a99671639df83f6d"; // Will be canceled in August
+    /**
+     * ключ от API YT. Будет заблокирован в Августе
+     */
+    private static String APIkey = "trnsl.1.1.20190724T111021Z.022523749cea0e17.47536e5b755e722e5a41aa56a99671639df83f6d"; t
 
+    /**
+     *
+     * @param lang язык, на который нужно перевести
+     * @param input переводимый текст
+     * @return возвращает переведенный текст
+     * @throws IOException проблемы с чтением битов, а также выбора кодировки
+     */
     public static String translate(String lang, String input) throws IOException {
         String urlStr = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=" + APIkey;
         URL urlObj = new URL(urlStr);
@@ -26,7 +42,7 @@ public class YandexTranslate {
         String translated = json.substring(start + 2, end - 1);
         i++;
         if (translated.equals(input) && i < 2) {
-            // if return equal of entered text - we need change direction of translation
+            // если вернулся тот же текст - меняем направления перевода
             return translate("en", input);
         } else return translated;
     }

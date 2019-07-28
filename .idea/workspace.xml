@@ -2,8 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bfca966f-4a7f-4e1e-866f-d7286b24a146" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/workers/MailSender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/backup.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/backup.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/queue-server/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/YandexTranslate.java" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/YandexTranslate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/configuration/CORSFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/configuration/CORSFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/configuration/WebSocketConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/configuration/WebSocketConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/controllers/APIController.java" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/controllers/APIController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/input.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/models/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/models/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/models/TaskType.java" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/models/TaskType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/GmailSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/GmailSender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/HibernateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/HibernateManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/Queue.java" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/Queue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/ThreadManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/ThreadManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/WebSocketSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/WebSocketSender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/workers/QuadraticEquationSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/workers/QuadraticEquationSolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/workers/Translator.java" beforeDir="false" afterPath="$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/workers/Translator.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +36,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/GmailSender.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="969">
-              <caret line="57" column="21" lean-forward="true" selection-start-line="57" selection-start-column="21" selection-end-line="57" selection-end-column="21" />
+            <state relative-caret-position="323">
+              <caret line="19" column="7" lean-forward="true" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -32,8 +48,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/YandexTranslate.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="39" column="38" lean-forward="true" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
+            <state relative-caret-position="534">
+              <caret line="49" selection-start-line="49" selection-end-line="49" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -206,15 +225,16 @@
       <option name="presentableId" value="Default" />
       <updated>1564143074394</updated>
       <workItem from="1564143075501" duration="1069000" />
-      <workItem from="1564336488036" duration="1885000" />
+      <workItem from="1564336488036" duration="2237000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2954000" />
+    <option name="totallyTimeSpent" value="3306000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25266525" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -251,16 +271,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/GmailSender.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="969">
-          <caret line="57" column="21" lean-forward="true" selection-start-line="57" selection-start-column="21" selection-end-line="57" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/Application.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -271,10 +281,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/GmailSender.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="7" lean-forward="true" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/queue-server/src/main/java/ru/practice/server/utils/YandexTranslate.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="39" column="38" lean-forward="true" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
+        <state relative-caret-position="534">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

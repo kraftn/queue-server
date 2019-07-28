@@ -1,32 +1,32 @@
 package ru.practice.server.workers;
 
+import com.sun.mail.smtp.SMTPAddressFailedException;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 import ru.practice.server.models.Task;
 import ru.practice.server.models.TaskType;
+import ru.practice.server.utils.GmailSender;
 import ru.practice.server.utils.Queue;
 import ru.practice.server.utils.WebSocketSender;
-import ru.practice.server.utils.YandexTranslate;
 
-import java.io.IOException;
 import java.net.UnknownHostException;
 
 /**
- * Обработчик задач перевода текста
+ * Обработчик задач отправки электронных писем
  */
-public class Translator implements Runnable {
-    /**
-     * Объект для работы с очередью в базе данных
-     */
+public class MailSender implements Runnable {
+    /** Объект для работы с очередью в базе данных */
     private Queue queue;
+    /** Объект для отправки писем */
+    private GmailSender gmailSender;
 
     /**
      * Конструктор класса
      *
      * @param queue объект для работы с очередью в базе данных
      */
-    public Translator(Queue queue) {
+    public MailSender(Queue queue) {
         this.queue = queue;
+        this.gmailSender = new GmailSender("sendermail23333@gmail.com", "qwertyuiop1!");
     }
 
     /**
@@ -35,7 +35,7 @@ public class Translator implements Runnable {
     @Override
     public void run() {
         queue.beginTransaction();
-        Task currentTask = queue.top(TaskType.TRANSLATION);
+        Task currentTask = queue.top(TaskType.EMAIL);
         queue.endTransaction();
 
         while (currentTask != null) {
@@ -45,24 +45,26 @@ public class Translator implements Runnable {
 
             String inputString = currentTask.getInput();
             JSONObject inputJson = new JSONObject(inputString);
-            String lang = inputJson.getString("lang");
+            String subject = inputJson.getString("subject");
+            String toEmail = inputJson.getString("to");
             String text = inputJson.getString("text");
 
             boolean isErrorOccurred = false;
-            String translated = null;
             try {
-                translated = YandexTranslate.translate(lang, text);
-            } catch (IOException e) {
+                gmailSender.send(subject, text, "sendermail23333@gmail.com", toEmail);
+            } catch (RuntimeException e) {
                 isErrorOccurred = true;
 
+                Throwable cause = e.getCause().getCause();
                 String status = "";
+
                 // Если нет подключения к интернету
-                if (e.getClass().equals(UnknownHostException.class)) {
+                if (cause.getClass().equals(UnknownHostException.class)) {
                     status = Queue.NO_INTERNET;
                 } else
-                    // Если указан неверный язык
-                    if (e.getClass().equals(IOException.class)) {
-                        status = Queue.WRONG_LANGUAGE;
+                    // Если указан неверный адрес электронной почты
+                    if (cause.getClass().equals(SMTPAddressFailedException.class)) {
+                        status = Queue.WRONG_EMAIL_ADDRESS;
                     }
 
                 queue.beginTransaction();
@@ -74,22 +76,13 @@ public class Translator implements Runnable {
             }
 
             queue.beginTransaction();
-            /*
-            При отсутствии ошибок установить статус успешного выполнения
-            и зафиксировать результат выполнения
-            */
+            // При отсутствии ошибок установить статус успешного выполнения
             if (!isErrorOccurred) {
-                String result = new JSONStringer().object()
-                        .key("translated")
-                        .value(translated)
-                        .endObject().toString();
-
-                currentTask.setOutput(result);
                 currentTask.setStatus(Queue.DONE);
             }
 
             WebSocketSender.send(currentTask.toJsonString());
-            currentTask = queue.top(TaskType.TRANSLATION);
+            currentTask = queue.top(TaskType.EMAIL);
             queue.endTransaction();
         }
     }

@@ -12,10 +12,18 @@ import ru.practice.server.utils.ThreadManager;
 
 import java.util.List;
 
+/**
+ * Контроллер для обработки HTTP-запросов
+ */
 @Controller
 public class APIController {
+    /** Поле для хранения доступных видов задач */
     private List<TaskType> taskTypes = HibernateManager.getInstance().getAllTaskTypes();
 
+    /**
+     * Метод, обрабатывающий POST запрос для /transferData
+     * @param a тело запроса
+     */
     @RequestMapping(value = "/transferData", headers="Content-Type=application/json", method = RequestMethod.POST)
     public @ResponseBody void transferData(@RequestBody String a){
         Queue queuePush = new Queue(HibernateManager.getInstance().createEntityManager());
@@ -39,6 +47,11 @@ public class APIController {
         ThreadManager.getInstance().start();
     }
 
+    /**
+     * Метод для поиска сущности типа задачи по её строковому представлению
+     * @param kind строковое представление типа задачи
+     * @return сущность типа задачи
+     */
     private TaskType findKind(String kind){
         int i = 0;
         while (!taskTypes.get(i).getKind().equals(kind)){

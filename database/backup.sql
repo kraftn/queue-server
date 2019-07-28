@@ -25,7 +25,7 @@ CREATE FUNCTION public.get_top(find_type character varying) RETURNS TABLE(id big
     AS $$select * from main_queue 
 where id = (select min(id) from main_queue
 where kind in (select id from task_types 
-where kind = find_type) and status <> 'Successfully done')$$;
+where kind = find_type) and status = 'В очереди')$$;
 
 
 ALTER FUNCTION public.get_top(find_type character varying) OWNER TO postgres;
@@ -130,8 +130,9 @@ COPY public.main_queue (id, kind, status, input, output) FROM stdin;
 --
 
 COPY public.task_types (id, kind) FROM stdin;
-7	Quadratic equation
-10	Translation
+11	E-mail
+7	Квадратное уравнение
+10	Перевод
 \.
 
 
@@ -139,14 +140,14 @@ COPY public.task_types (id, kind) FROM stdin;
 -- Name: main_queue_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.main_queue_id_seq', 14579, true);
+SELECT pg_catalog.setval('public.main_queue_id_seq', 14693, true);
 
 
 --
 -- Name: task_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.task_types_id_seq', 10, true);
+SELECT pg_catalog.setval('public.task_types_id_seq', 14, true);
 
 
 --

@@ -1,22 +1,31 @@
 package ru.practice.server.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-@Service
+/**
+ * Класс, позволяющий отправить результаты выполнения задач клиентскому приложению
+ */
+@Component
 public class WebSocketSender {
-    private SimpMessagingTemplate template;
+    /** Объект для отправки сообщений */
+    private static SimpMessagingTemplate template;
 
+    /**
+     * Конструктор класса
+     * @param template объект для отправки сообщений
+     */
     @Autowired
     WebSocketSender(SimpMessagingTemplate template){
-        this.template = template;
+        WebSocketSender.template = template;
     }
 
-    @EventListener
-    public void send(String message){
+    /**
+     * Метод для отправки сообщения клиентскому приложению
+     * @param message сообщение
+     */
+    public static void send(String message){
         template.convertAndSend("/results", message);
     }
 }

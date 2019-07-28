@@ -17,7 +17,7 @@ public class YandexTranslate {
     /**
      * ключ от API YT. Будет заблокирован в Августе
      */
-    private static String APIkey = "trnsl.1.1.20190724T111021Z.022523749cea0e17.47536e5b755e722e5a41aa56a99671639df83f6d"; t
+    private static String APIkey = "trnsl.1.1.20190724T111021Z.022523749cea0e17.47536e5b755e722e5a41aa56a99671639df83f6d";
 
     /**
      *

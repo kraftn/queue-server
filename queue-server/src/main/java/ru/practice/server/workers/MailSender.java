@@ -51,7 +51,7 @@ public class MailSender implements Runnable {
 
             boolean isErrorOccurred = false;
             try {
-                gmailSender.send(subject, text, "sendermail23333@gmail.com", toEmail);
+                gmailSender.send(subject, text, toEmail);
             } catch (RuntimeException e) {
                 isErrorOccurred = true;
 

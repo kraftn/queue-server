@@ -22,7 +22,6 @@ public class Application {
      * @param args параметры командной строки
      */
     public static void main(String[] args) {
-        initFile(5, "kravchykn99@gmail.com");
         SpringApplication.run(Application.class, args);
         ThreadManager.getInstance().start();
     }

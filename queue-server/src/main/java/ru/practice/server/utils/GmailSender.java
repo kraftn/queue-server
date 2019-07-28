@@ -11,10 +11,16 @@ import javax.mail.internet.MimeMessage;
  */
 public class GmailSender {
     /**
-     *
+     *логин электоронной почты отправителя
      */
     private String username;
+    /**
+     * пароль электоронной почты отправителя
+     */
     private String password;
+    /**
+     *свойства подключения
+     */
     private Properties props;
 
     /**
